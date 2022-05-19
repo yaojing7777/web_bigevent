@@ -22,10 +22,6 @@ body {
   background: url(/assets/images/login_title.png) no-repeat center;
 }
 
-.reg-box {
-  display: none;
-}
-
 .layui-form {
   padding: 0 30px;
 }
@@ -47,5 +43,10 @@ body {
 }
 
 .layui-input {
-  padding-left: 32px;
+  padding-left: 32px !important;
+  /* important:  !important; */
+}
+
+.reg-box {
+  display: none;
 }
