@@ -1,29 +1,52 @@
-// 获取用户基本信息
-function getUserInfo () {
+$(function () {
+  getUserInofo();
+
+  // 退出登录
+  $("#btnLogout").click(() => {
+    layui.layer.confirm(
+      "确定退出登录？",
+      { icon: 3, title: "" },
+      function (index) {
+        // 清空本地存储里面的 token
+        localStorage.removeItem("token");
+        // 重新跳转到登录页面
+        location.href = "/login.html";
+      }
+    );
+  });
+});
+
+const layer = layui.layer;
+
+//获取用户信息
+function getUserInofo() {
   $.ajax({
     type: "GET",
     url: "/my/userinfo",
+    //在请求头里面注入token
     // headers: {
     //   Authorization: localStorage.getItem("token"),
     // },
     success: (res) => {
-      if (res.status !== 0) return layui.layer.msg("数据请求失败！");
       console.log(res);
-      // 调用 renderAvatar 渲染用户头像
+      if (res.status !== 0) return layer.msg("获取用户信息失败！");
+      layer.msg("获取用户信息成功！");
+      //调用渲染头像函数
       renderAvatar(res.data);
     },
-    // 不论成功还是失败，最终都会调用 complete 回调函数
+    //不论成功还是失败，最终都会调用complete回调函数
     // complete: (res) => {
-    //    // 在 complete 回调函数中，可以使用 res.responseJSON 拿到服务器响应回来的数据
-    //    if(res.responseJSON.status ===1 && res.responseJSON.message === "身份认证失败！") {
-    //     //  强制清空 token
+    //   console.log(res);
+    //   if (
+    //     res.responseJSON.status === 1 &&
+    //     res.responseJSON.message === "身份认证失败！"
+    //   ) {
     //     localStorage.removeItem("token");
-    //     // 强制跳转到登录页面
-    //     location.href = "/login.html"
-    //    }
+    //     location.href = "/login.html";
+    //   }
     // },
   });
-};
+}
 
 // 渲染用户头像
 const renderAvatar = (user) => {
@@ -43,20 +66,3 @@ const renderAvatar = (user) => {
     $(".text-avatar").html(firstName);
   }
 };
-
-// 退出登录
-$("#btnLogout").click(() => {
-  layui.layer.confirm(
-    "确定退出登录？",
-    { icon: 3, title: "" },
-    function (index) {
-      // 清空本地存储里面的 token
-      localStorage.removeItem("token");
-      // 重新跳转到登录页面
-      location.href = "/login.html";
-    }
-  );
-});
-
-// 调用 getUserInfo 函数获取用户基本信息
-getUserInfo();
