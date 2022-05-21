@@ -38,7 +38,7 @@ $(".layui-form").on("submit", (e) => {
       if (res.status !== 0) return layer.msg("更新用户信息失败！");
       layer.msg("更新用户信息成功！");
       // 调用父页面渲染函数
-      window.parent.getUserInfo();
+      window.parent.getUserInofo();
     },
   });
 });
